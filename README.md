@@ -13,6 +13,14 @@ npm install
 npm run dev
 ```
 
+Stream Deck map QA (no hardware):
+
+```bash
+npm test
+```
+
+Receipt: [`docs/receipts/stream-deck-map.md`](docs/receipts/stream-deck-map.md).
+
 Production:
 
 ```bash

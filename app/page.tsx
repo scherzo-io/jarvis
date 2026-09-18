@@ -1,7 +1,10 @@
-"use client";
-
 import JarvisHud from "@/components/hud/JarvisHud";
+import { JarvisShell } from "@/components/shell/JarvisShell";
 
 export default function Home() {
-  return <JarvisHud />;
+  return (
+    <JarvisShell>
+      <JarvisHud />
+    </JarvisShell>
+  );
 }

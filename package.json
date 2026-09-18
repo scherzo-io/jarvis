@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --test components/shell/*.test.ts"
+    "test": "node --experimental-strip-types --test components/shell/*.test.ts && tsx --test lib/commands.test.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -28,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

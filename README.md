@@ -11,7 +11,10 @@ The deck is a dark gold / ion-teal holographic core: nested solids, orbital ring
 ```bash
 npm install
 npm run dev
+npm test
 ```
+
+Stream Deck map QA receipt (no hardware): [`docs/receipts/stream-deck-map.md`](docs/receipts/stream-deck-map.md).
 
 Production:
 

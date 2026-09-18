@@ -9,7 +9,7 @@ App Builder owns the dashboard **layout grid** so HUD Visual can migrate chrome 
 | `data-shell` | Zone | Default content |
 | --- | --- | --- |
 | `root` | Full-viewport grid | `data-shell-rail="on"` or `"off"` |
-| `topbar` | Brand / clock / status readouts | Store: scene label, agents pill, last directive |
+| `topbar` | Brand / clock / status readouts | Demo/Live toggle, scene label, agents pill, last directive |
 | `main` | Stage + optional right rail | — |
 | `stage` | Center stage | `children` — existing `JarvisHud` / World |
 | `rail` | Right panel slot | Store: scene callsign + agents detail |
@@ -30,6 +30,12 @@ Default placeholders are marked `data-shell-slot="default"`. They are structural
 - Pass `rail={false}` → hide the rail (`data-shell-rail="off"`); stage goes full width.
 
 HID / Stream Deck stay on `InputBridge` inside `JarvisHud`. Do not move that unless Visual relocates chrome and App Builder rewires the stage child.
+
+## Data mode (Slice 1.1)
+
+Shell chrome reads **Demo** fixtures or **Live** store/agents. Default is Demo when `NEXT_PUBLIC_AGENTS_URL` is unset or agents health is unset/down/checking; Live only when the URL is set and health is `ok`. The toggle lives in `ShellTopbar` and persists to `sessionStorage` key `jarvis:data-mode`. Live with a missing or down uplink stays Live and shows a FAULT readout.
+
+Fixtures: `lib/fixtures/demo-feed.json`, `lib/fixtures/demo-readouts.json`, `lib/fixtures/demo-board.json`.
 
 ## Ownership
 

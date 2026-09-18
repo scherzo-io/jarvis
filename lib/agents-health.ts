@@ -8,6 +8,10 @@ function agentsBaseUrl(): string | null {
   return raw.replace(/\/+$/, "");
 }
 
+export function agentsConfiguredUrl(): string | null {
+  return agentsBaseUrl();
+}
+
 function healthUrl(base: string): string {
   return `${base}/api/health`;
 }

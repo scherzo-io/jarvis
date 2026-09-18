@@ -1,3 +1,7 @@
 # jarvis
 
-Vercel project shell for Jarvis Slice 0. App code lands via CloudAgent PRs.
+Main Jarvis HUD — Vercel project `jarvis`.
+
+Owned by Jarvis App Builder. Lead: Jarvis Lead.
+
+Stack target: Next.js + Three.js HUD + WebHID Stream Deck.

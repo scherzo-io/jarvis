@@ -8,7 +8,7 @@ import {
   isHoldable,
   STREAM_DECK_MAP,
 } from "./commands";
-import type { Command } from "./types";
+import type { CameraMove, Command } from "./types";
 
 /**
  * Documented 15-key (5×3) + XL zoom extras from README.
@@ -54,8 +54,18 @@ const DOCUMENTED_LABELS: Record<number, string> = {
   16: "CAM ZOOM OUT",
 };
 
-const HOLDABLE_KEY_INDEXES = [5, 6, 8, 9, 15, 16] as const;
-const NON_HOLDABLE_KEY_INDEXES = [0, 1, 2, 3, 4, 7, 10, 11, 12, 13, 14] as const;
+const DOCUMENTED_INDEXES = Object.keys(DOCUMENTED_STREAM_DECK_COMMANDS)
+  .map(Number)
+  .sort((a, b) => a - b);
+
+const HOLDABLE_CAMERA_MOVES = new Set<CameraMove>([
+  "yawLeft",
+  "yawRight",
+  "pitchUp",
+  "pitchDown",
+  "zoomIn",
+  "zoomOut",
+]);
 
 describe("STREAM_DECK_MAP / commandForStreamDeckKey", () => {
   test("every documented 15-key index (0–14) resolves to the README command", () => {
@@ -95,26 +105,20 @@ describe("STREAM_DECK_MAP / commandForStreamDeckKey", () => {
     const keys = Object.keys(STREAM_DECK_MAP)
       .map(Number)
       .sort((a, b) => a - b);
-    assert.deepEqual(keys, [...Array.from({ length: 17 }, (_, i) => i)]);
+    assert.deepEqual(keys, DOCUMENTED_INDEXES);
   });
 });
 
 describe("isHoldable camera moves", () => {
   test("yaw / pitch / zoom keys are holdable", () => {
-    for (const index of HOLDABLE_KEY_INDEXES) {
+    for (const index of DOCUMENTED_INDEXES) {
+      const expected = DOCUMENTED_STREAM_DECK_COMMANDS[index];
+      if (expected.type !== "camera" || !HOLDABLE_CAMERA_MOVES.has(expected.move)) {
+        continue;
+      }
       const command = commandForStreamDeckKey(index);
+      assert.deepEqual(command, expected, `key ${index}`);
       assert.ok(command, `key ${index} should resolve`);
-      assert.equal(command.type, "camera");
-      assert.ok(
-        command.type === "camera" &&
-          (command.move === "yawLeft" ||
-            command.move === "yawRight" ||
-            command.move === "pitchUp" ||
-            command.move === "pitchDown" ||
-            command.move === "zoomIn" ||
-            command.move === "zoomOut"),
-        `key ${index} should be a yaw/pitch/zoom move`,
-      );
       assert.equal(isHoldable(command), true, `key ${index}`);
     }
   });
@@ -131,12 +135,13 @@ describe("isHoldable camera moves", () => {
   });
 
   test("scenes and panels are not holdable", () => {
-    for (const index of NON_HOLDABLE_KEY_INDEXES) {
+    for (const index of DOCUMENTED_INDEXES) {
+      const expected = DOCUMENTED_STREAM_DECK_COMMANDS[index];
+      if (expected.type === "camera") {
+        continue;
+      }
       const command = commandForStreamDeckKey(index);
       assert.ok(command, `key ${index}`);
-      if (command.type === "camera") {
-        assert.ok(command.move === "reset" || command.move === "toggleAutoOrbit");
-      }
       assert.equal(isHoldable(command), false, `key ${index}`);
     }
   });

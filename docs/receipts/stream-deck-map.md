@@ -15,13 +15,14 @@ npm install
 npm test
 ```
 
-`npm test` runs Node’s built-in test runner via `tsx` (needed so TypeScript can import `lib/commands.ts` without changing production extensionless imports). Tests stay on Node; they never open a browser or request HID.
+`npm test` is pinned to `tsx --test lib/commands.test.ts` (not a glob) so a missing file fails instead of exiting 0 on an empty suite. `tsx` is required so TypeScript can import `lib/commands.ts` without changing production extensionless imports. Tests stay on Node; they never open a browser or request HID.
 
 ## Pass criteria
 
 | Check | Expected |
 | --- | --- |
 | Exit code | `0` |
+| TAP summary | `# tests 11`, `# fail 0` (empty suite is a fail) |
 | Failures | `0` |
 | Hardware / WebHID | Not used. A missing `navigator.hid` must not fail this suite. |
 | Documented keys `0`–`14` | Resolve to README 15-key map (scenes, camera holds, panels, auto orbit) |

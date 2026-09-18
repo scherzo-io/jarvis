@@ -6,13 +6,15 @@ import {
   commandForStreamDeckKey,
   describeCommand,
   isHoldable,
+  KEYBOARD_MAP,
   STREAM_DECK_MAP,
 } from "./commands";
-import type { CameraMove, Command } from "./types";
+import { CAMERA_MOVES, type CameraMove, type Command } from "./types";
 
 /**
- * Documented 15-key (5×3) + XL zoom extras from README.
- * Indices are 0-based, left-to-right, top-to-bottom.
+ * README Stream Deck contract (not a copy of STREAM_DECK_MAP).
+ * 15-key 5×3 is 0–14; XL extras 15–16 are zoom. Key 3 is scene `wide`
+ * (label COMMAND). Indices are 0-based, left-to-right, top-to-bottom.
  */
 const DOCUMENTED_STREAM_DECK_COMMANDS: Record<number, Command> = {
   0: { type: "scene", scene: "core" },
@@ -67,6 +69,26 @@ const HOLDABLE_CAMERA_MOVES = new Set<CameraMove>([
   "zoomOut",
 ]);
 
+const DOCUMENTED_KEYBOARD_COMMANDS: Record<string, Command> = {
+  Digit1: { type: "scene", scene: "core" },
+  Digit2: { type: "scene", scene: "orbit" },
+  Digit3: { type: "scene", scene: "tactical" },
+  Digit4: { type: "scene", scene: "wide" },
+  Digit5: { type: "scene", scene: "pulse" },
+  ArrowLeft: { type: "camera", move: "yawLeft" },
+  ArrowRight: { type: "camera", move: "yawRight" },
+  ArrowUp: { type: "camera", move: "pitchUp" },
+  ArrowDown: { type: "camera", move: "pitchDown" },
+  KeyR: { type: "camera", move: "reset" },
+  Space: { type: "camera", move: "toggleAutoOrbit" },
+  Equal: { type: "camera", move: "zoomIn" },
+  Minus: { type: "camera", move: "zoomOut" },
+  KeyQ: { type: "panel", panel: "systems" },
+  KeyA: { type: "panel", panel: "agents" },
+  KeyC: { type: "panel", panel: "comms" },
+  KeyT: { type: "panel", panel: "telemetry" },
+};
+
 describe("STREAM_DECK_MAP / commandForStreamDeckKey", () => {
   test("every documented 15-key index (0–14) resolves to the README command", () => {
     for (let index = 0; index <= 14; index += 1) {
@@ -111,15 +133,26 @@ describe("STREAM_DECK_MAP / commandForStreamDeckKey", () => {
 
 describe("isHoldable camera moves", () => {
   test("yaw / pitch / zoom keys are holdable", () => {
-    for (const index of DOCUMENTED_INDEXES) {
+    const holdableIndexes = DOCUMENTED_INDEXES.filter((index) => {
       const expected = DOCUMENTED_STREAM_DECK_COMMANDS[index];
-      if (expected.type !== "camera" || !HOLDABLE_CAMERA_MOVES.has(expected.move)) {
-        continue;
-      }
+      return expected.type === "camera" && HOLDABLE_CAMERA_MOVES.has(expected.move);
+    });
+    assert.deepEqual(holdableIndexes, [5, 6, 8, 9, 15, 16]);
+    for (const index of holdableIndexes) {
       const command = commandForStreamDeckKey(index);
-      assert.deepEqual(command, expected, `key ${index}`);
+      assert.deepEqual(command, DOCUMENTED_STREAM_DECK_COMMANDS[index], `key ${index}`);
       assert.ok(command, `key ${index} should resolve`);
       assert.equal(isHoldable(command), true, `key ${index}`);
+    }
+  });
+
+  test("only yaw / pitch / zoom camera moves are holdable", () => {
+    for (const move of CAMERA_MOVES) {
+      assert.equal(
+        isHoldable({ type: "camera", move }),
+        HOLDABLE_CAMERA_MOVES.has(move),
+        move,
+      );
     }
   });
 
@@ -159,21 +192,12 @@ describe("describeCommand labels", () => {
 });
 
 describe("commandForKeyboard fallback helpers", () => {
-  test("documented keyboard codes resolve to the same command families as the deck", () => {
-    assert.deepEqual(commandForKeyboard("Digit1"), { type: "scene", scene: "core" });
-    assert.deepEqual(commandForKeyboard("Digit5"), { type: "scene", scene: "pulse" });
-    assert.deepEqual(commandForKeyboard("ArrowLeft"), {
-      type: "camera",
-      move: "yawLeft",
-    });
-    assert.deepEqual(commandForKeyboard("KeyR"), { type: "camera", move: "reset" });
-    assert.deepEqual(commandForKeyboard("Space"), {
-      type: "camera",
-      move: "toggleAutoOrbit",
-    });
-    assert.deepEqual(commandForKeyboard("Equal"), { type: "camera", move: "zoomIn" });
-    assert.deepEqual(commandForKeyboard("Minus"), { type: "camera", move: "zoomOut" });
-    assert.deepEqual(commandForKeyboard("KeyQ"), { type: "panel", panel: "systems" });
+  test("every documented keyboard code resolves to the README fallback command", () => {
+    const codes = Object.keys(DOCUMENTED_KEYBOARD_COMMANDS).sort();
+    assert.deepEqual(Object.keys(KEYBOARD_MAP).sort(), codes);
+    for (const [code, expected] of Object.entries(DOCUMENTED_KEYBOARD_COMMANDS)) {
+      assert.deepEqual(commandForKeyboard(code), expected, code);
+    }
   });
 
   test("unknown keyboard codes return null", () => {

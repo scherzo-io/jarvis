@@ -14,9 +14,12 @@ export function BootGate() {
 
   return (
     <div className={`hud-boot ${booted ? "is-gone" : ""}`} aria-hidden={booted}>
-      <p>INITIALIZING SCHERZO KERNEL</p>
-      <strong>J.A.R.V.I.S</strong>
-      <span>HOLOGRAPHIC COMMAND DECK ONLINE</span>
+      <div className="hud-boot-frame hud-frame">
+        <p>INITIALIZING SCHERZO KERNEL</p>
+        <strong>J.A.R.V.I.S</strong>
+        <span>HOLOGRAPHIC COMMAND DECK ONLINE</span>
+        <i className="hud-boot-ticks" aria-hidden />
+      </div>
     </div>
   );
 }

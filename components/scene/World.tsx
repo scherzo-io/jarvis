@@ -26,17 +26,18 @@ function Atmosphere() {
 
   return (
     <>
-      <color attach="background" args={[theme.fog]} />
-      <fog attach="fog" args={[theme.fog, 8, 34]} />
-      <ambientLight intensity={0.18} />
+      <color attach="background" args={["#05070c"]} />
+      <fog attach="fog" args={[theme.fog, 9, 36]} />
+      <ambientLight intensity={0.16} />
       <pointLight position={[0, 0.2, 0]} intensity={18} distance={12} color={theme.primary} />
-      <pointLight position={[4, 3, -2]} intensity={6} distance={16} color={theme.secondary} />
+      <pointLight position={[4, 3, -2]} intensity={5.4} distance={16} color={theme.secondary} />
+      <pointLight position={[-5, 2.4, 3]} intensity={3.2} distance={14} color="#37e5ff" />
       <spotLight
         position={[0, 10, 4]}
-        intensity={8}
-        angle={0.5}
-        penumbra={0.8}
-        color={new Color("#fff4d8")}
+        intensity={7.2}
+        angle={0.48}
+        penumbra={0.82}
+        color={new Color("#d8f4ff")}
       />
       <CameraRig />
       <CommandCore />
@@ -47,8 +48,8 @@ function Atmosphere() {
       <EffectComposer enableNormalPass={false}>
         <Bloom
           intensity={theme.bloom}
-          luminanceThreshold={0.18}
-          luminanceSmoothing={0.4}
+          luminanceThreshold={0.16}
+          luminanceSmoothing={0.36}
           mipmapBlur
         />
         <ChromaticAberration
@@ -57,7 +58,7 @@ function Atmosphere() {
           modulationOffset={0.4}
         />
         <Noise opacity={0.08} blendFunction={BlendFunction.SOFT_LIGHT} />
-        <Vignette eskil={false} offset={0.18} darkness={0.85} />
+        <Vignette eskil={false} offset={0.16} darkness={0.9} />
       </EffectComposer>
     </>
   );

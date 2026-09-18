@@ -39,7 +39,7 @@ type HudState = {
   setAgents: (patch: Partial<AgentsHealth>) => void;
 };
 
-let logSeq = 0;
+let logSeq = 1;
 
 function applySceneCamera(scene: SceneId): CameraState {
   const theme = SCENES[scene];

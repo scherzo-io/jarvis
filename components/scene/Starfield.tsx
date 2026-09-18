@@ -84,7 +84,7 @@ export function Starfield() {
         uniforms={{
           uTime: { value: 0 },
           uGold: { value: [0.91, 0.72, 0.43] },
-          uTeal: { value: [0.31, 0.89, 0.77] },
+          uTeal: { value: [0.216, 0.898, 1.0] },
         }}
       />
     </points>

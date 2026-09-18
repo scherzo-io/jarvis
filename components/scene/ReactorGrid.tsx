@@ -24,8 +24,8 @@ const fragment = /* glsl */ `
     return 1.0 - min(min(g.x, g.y), 1.0);
   }
   void main() {
-    float g1 = grid(vPos.xz, 0.55);
-    float g2 = grid(vPos.xz, 0.08);
+    float g1 = grid(vPos.xz, 0.7);
+    float g2 = grid(vPos.xz, 0.11);
     float fade = 1.0 - smoothstep(4.0, 28.0, length(vPos.xz));
     float sweep = 0.35 + 0.65 * sin(vPos.x * 0.18 + uTime * 0.7);
     float alpha = (g1 * 0.55 + g2 * 0.18) * fade * sweep;

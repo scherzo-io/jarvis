@@ -85,7 +85,7 @@ export function CommandCore() {
       </mesh>
       <mesh scale={1.86} rotation={[Math.PI / 3, 0.4, 0.2]}>
         <dodecahedronGeometry args={[1.05, 0]} />
-        <meshBasicMaterial color="#4ee4c6" wireframe transparent opacity={0.22} />
+        <meshBasicMaterial color="#37e5ff" wireframe transparent opacity={0.28} />
       </mesh>
     </group>
   );

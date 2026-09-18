@@ -103,11 +103,11 @@ export function OrbitRings() {
   return (
     <group>
       <Ring radius={2.35} tilt={[0.2, 0.1, 0]} color="#e8b86d" speed={0.35} dash={0.35} />
-      <Ring radius={3.15} tilt={[1.15, 0.4, 0.2]} color="#4ee4c6" speed={-0.22} dash={0.28} />
+      <Ring radius={3.15} tilt={[1.15, 0.4, 0.2]} color="#37e5ff" speed={-0.22} dash={0.32} />
       <Ring radius={4.05} tilt={[-0.55, 0.8, 0.15]} color="#c9a36a" speed={0.14} dash={0.2} />
-      <Ring radius={5.1} tilt={[0.05, -0.2, 0.7]} color="#89a0c8" speed={-0.1} dash={0.16} />
+      <Ring radius={5.1} tilt={[0.05, -0.2, 0.7]} color="#b48cff" speed={-0.1} dash={0.18} />
       <Satellite radius={2.35} speed={0.9} phase={0.2} color="#e8b86d" />
-      <Satellite radius={3.15} speed={-0.7} phase={1.4} color="#4ee4c6" />
+      <Satellite radius={3.15} speed={-0.7} phase={1.4} color="#37e5ff" />
       <Satellite radius={4.05} speed={0.45} phase={2.8} color="#ffc56a" />
     </group>
   );

@@ -1,19 +1,39 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
 import { panelLabel } from "@/lib/commands";
 import { connectStreamDeck, isHidSupported } from "@/lib/stream-deck";
 import { SCENES, SCENE_LIST } from "@/lib/scenes";
 import { useHud } from "@/lib/hud-store";
 import { assertNever, type AgentsHealthStatus, type PanelId } from "@/lib/types";
 
+function subscribeNever(onStoreChange: () => void) {
+  return () => {
+    void onStoreChange;
+  };
+}
+
+function useClientFlag() {
+  return useSyncExternalStore(subscribeNever, () => true, () => false);
+}
+
 function useClock() {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(new Date()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-  return now.toISOString().slice(11, 19);
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      const timer = window.setInterval(onStoreChange, 1000);
+      return () => window.clearInterval(timer);
+    },
+    () => new Date().toISOString().slice(11, 19),
+    () => "--:--:--",
+  );
+}
+
+function useHidSupported() {
+  return useSyncExternalStore(subscribeNever, isHidSupported, () => false);
+}
+
+function formatZulu(at: number) {
+  return new Date(at).toISOString().slice(11, 19);
 }
 
 function Corner({ className }: { className: string }) {
@@ -133,11 +153,12 @@ function AgentsBody() {
 
 function CommsBody() {
   const log = useHud((state) => state.log);
+  const mounted = useClientFlag();
   return (
     <ol className="hud-feed">
       {log.map((entry) => (
-        <li key={entry.id} className="hud-event">
-          <time>{new Date(entry.at).toISOString().slice(11, 19)}</time>
+        <li key={`${entry.id}-${entry.at}`} className="hud-event">
+          <time>{mounted ? formatZulu(entry.at) : "--:--:--"}</time>
           <span>{entry.text}</span>
         </li>
       ))}
@@ -169,7 +190,7 @@ function TelemetryBody() {
       <div className="hud-wave" aria-hidden>
         {bars.map((bar) => {
           const h = 18 + ((Math.sin(tick * 0.28 + bar * 0.55) + 1) * 26 + bar * energy) % 42;
-          return <i key={bar} style={{ height: `${h}%` }} />;
+          return <i key={bar} style={{ height: `${Math.round(h)}%` }} />;
         })}
       </div>
     </div>
@@ -186,7 +207,8 @@ export function Overlay() {
   const booted = useHud((state) => state.booted);
   const dispatch = useHud((state) => state.dispatch);
   const theme = SCENES[scene];
-  const hid = isHidSupported();
+  const client = useClientFlag();
+  const hid = useHidSupported();
   const [error, setError] = useState<string | null>(null);
   const agentsChip = agentLabel(agents.status);
 
@@ -276,7 +298,7 @@ export function Overlay() {
             </strong>
             <em>{streamDeck.lastLabel}</em>
           </div>
-          <button type="button" onClick={() => void onConnect()} disabled={!hid}>
+          <button type="button" onClick={() => void onConnect()} disabled={!client || !hid}>
             {streamDeck.connected ? "RELINK" : "CONNECT HID"}
           </button>
         </div>
@@ -284,7 +306,7 @@ export function Overlay() {
           <span className="hud-label">RIG</span>
           <strong>{camera.autoOrbit ? "AUTO ORBIT" : "MANUAL"}</strong>
           {error ? <em>{error}</em> : null}
-          {!hid ? <em>WebHID needs Chrome / Edge on HTTPS</em> : null}
+          {client && !hid ? <em>WebHID needs Chrome / Edge on HTTPS</em> : null}
         </div>
       </footer>
     </div>

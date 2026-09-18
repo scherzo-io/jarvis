@@ -15,11 +15,6 @@ export function ShellRail(): ReactNode {
         {readouts.agentsLabel}
       </span>
       <p className={styles.detail}>{readouts.agentsDetail}</p>
-      {readouts.uplinkFaultMessage ? (
-        <p className={styles.fault} data-tone="down">
-          {readouts.uplinkFaultMessage}
-        </p>
-      ) : null}
 
       {readouts.metrics.length > 0 ? (
         <dl className={styles.metrics} data-shell="metrics">

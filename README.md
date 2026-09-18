@@ -2,6 +2,8 @@
 
 Cinematic Three.js command HUD for [scherzo-io/jarvis](https://github.com/scherzo-io/jarvis). Vercel project: `jarvis`. No auth.
 
+Production: [https://jarvis-ten-delta-74.vercel.app](https://jarvis-ten-delta-74.vercel.app)
+
 The deck is a dark gold / ion-teal holographic core: nested solids, orbital rings, drifting satellites, a reactor grid, and a bloomed void. Stream Deck keys (or the keyboard) drive camera, scene presets, and panel visibility.
 
 ## Run

@@ -70,6 +70,7 @@ export function World() {
       dpr={[1, 1.75]}
       camera={{ position: [6, 3.2, 8], fov: 42, near: 0.1, far: 80 }}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+      fallback={<p className="hud-webgl-fallback">HOLOGRAM DRIVER UNAVAILABLE</p>}
     >
       <Suspense fallback={null}>
         <Atmosphere />

@@ -51,6 +51,18 @@ body {
   inset: 0;
 }
 
+.hud-webgl-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  letter-spacing: 0.32em;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  color: var(--steel);
+}
+
 .hud-overlay {
   position: absolute;
   inset: 0;

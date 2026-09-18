@@ -5,14 +5,17 @@ import { SCENES } from "@/lib/scenes";
 import { buildShellReadouts, type ShellReadouts } from "./shell-status";
 
 export function useShellReadouts(): ShellReadouts {
-  return useHud((state) => {
-    const theme = SCENES[state.scene];
-    return buildShellReadouts({
-      sceneLabel: theme.label,
-      sceneCallsign: theme.callsign,
-      agents: state.agents,
-      lastCommand: state.lastCommand,
-      log: state.log,
-    });
+  const scene = useHud((state) => state.scene);
+  const agents = useHud((state) => state.agents);
+  const lastCommand = useHud((state) => state.lastCommand);
+  const log = useHud((state) => state.log);
+  const theme = SCENES[scene];
+
+  return buildShellReadouts({
+    sceneLabel: theme.label,
+    sceneCallsign: theme.callsign,
+    agents,
+    lastCommand,
+    log,
   });
 }

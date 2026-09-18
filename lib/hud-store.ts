@@ -39,6 +39,7 @@ type HudState = {
   setAgents: (patch: Partial<AgentsHealth>) => void;
 };
 
+// Seed log rows use ids 0 and 1; the next dispatch must not reuse them.
 let logSeq = 1;
 
 function applySceneCamera(scene: SceneId): CameraState {

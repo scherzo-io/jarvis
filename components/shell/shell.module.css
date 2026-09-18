@@ -75,7 +75,7 @@
 
 .topbarSlot {
   display: grid;
-  grid-template-columns: minmax(140px, 1.1fr) auto minmax(220px, 2fr);
+  grid-template-columns: minmax(140px, 1.1fr) minmax(0, auto) minmax(180px, 2fr);
   align-items: center;
   gap: 12px 18px;
 }
@@ -206,6 +206,116 @@
   letter-spacing: 0.08em;
 }
 
+.modeBlock {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modeSwitch {
+  display: inline-flex;
+  border: 1px solid var(--line);
+}
+
+.modeButton {
+  margin: 0;
+  padding: 3px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--steel);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.modeButton[aria-pressed="true"] {
+  background: rgba(78, 228, 198, 0.12);
+  color: var(--gold-hot);
+}
+
+.fault {
+  color: var(--rose);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin: 8px 0 0;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.metric dt {
+  color: var(--steel);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.metric dd {
+  margin: 0;
+  color: var(--gold-hot);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+}
+
+.board {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.lanes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.lane {
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid var(--line);
+}
+
+.lane header {
+  margin-bottom: 6px;
+  color: var(--gold);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.lane ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lane li {
+  color: var(--steel);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 1100px) {
   .topbarSlot {
     grid-template-columns: 1fr;
@@ -221,6 +331,10 @@
   }
 
   .feedList {
+    grid-template-columns: 1fr;
+  }
+
+  .lanes {
     grid-template-columns: 1fr;
   }
 }

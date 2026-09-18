@@ -1,3 +1,4 @@
+export { DataModeToggle } from "./DataModeToggle";
 export { JarvisShell, type JarvisShellProps } from "./JarvisShell";
 export { ShellFeed } from "./ShellFeed";
 export { ShellRail } from "./ShellRail";

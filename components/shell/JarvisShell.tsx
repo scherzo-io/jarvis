@@ -7,6 +7,7 @@ import { ShellRail } from "./ShellRail";
 import { ShellTopbar } from "./ShellTopbar";
 import type { ShellRailMode } from "./shell-contract";
 import { resolveShellRail } from "./shell-status";
+import { useDataModeStore, useHydrateDataMode } from "./use-data-mode";
 import styles from "./shell.module.css";
 
 export type JarvisShellProps = {
@@ -55,6 +56,8 @@ export function JarvisShell({
   rail,
   feed,
 }: JarvisShellProps): ReactNode {
+  useHydrateDataMode();
+  const dataMode = useDataModeStore((state) => state.mode);
   const railMode = resolveShellRail(rail);
 
   return (
@@ -62,6 +65,7 @@ export function JarvisShell({
       className={styles.root}
       data-shell="root"
       data-shell-rail={railAttr(railMode)}
+      data-shell-data-mode={dataMode}
     >
       <header className={styles.topbar} data-shell="topbar">
         {topbar ?? <ShellTopbar />}

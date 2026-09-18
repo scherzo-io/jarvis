@@ -1,0 +1,22 @@
+{
+  "lanes": [
+    {
+      "id": "intake",
+      "title": "INTAKE",
+      "items": [
+        { "id": "i1", "text": "Sample ticket A" },
+        { "id": "i2", "text": "Sample ticket B" }
+      ]
+    },
+    {
+      "id": "active",
+      "title": "ACTIVE",
+      "items": [{ "id": "a1", "text": "Sample run" }]
+    },
+    {
+      "id": "hold",
+      "title": "HOLD",
+      "items": [{ "id": "h1", "text": "Fixture wait" }]
+    }
+  ]
+}

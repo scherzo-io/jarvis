@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { DataModeToggle } from "./DataModeToggle";
 import { formatClock } from "./shell-status";
 import { useShellReadouts } from "./use-shell-readouts";
 import styles from "./shell.module.css";
@@ -35,6 +36,7 @@ export function ShellTopbar(): ReactNode {
         </time>
       </section>
       <div className={styles.readouts}>
+        <DataModeToggle />
         <div className={styles.readout}>
           <span className={styles.label}>Scene</span>
           <strong className={styles.value}>{readouts.sceneLabel}</strong>

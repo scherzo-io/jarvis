@@ -1,0 +1,18 @@
+{
+  "sceneLabel": "SAMPLE ORBIT",
+  "sceneCallsign": "FIXTURE",
+  "lastCommand": "DEMO · SAMPLE DIRECTIVE",
+  "agents": {
+    "status": "ok",
+    "latencyMs": 4,
+    "detail": "Local sample uplink",
+    "checkedAt": 0,
+    "url": "fixture://agents/health"
+  },
+  "metrics": [
+    { "id": "reactor", "label": "REACTOR", "value": "74%" },
+    { "id": "range", "label": "RANGE", "value": "8.4m" },
+    { "id": "yaw", "label": "YAW", "value": "0.42" },
+    { "id": "lat", "label": "LAT", "value": "4ms" }
+  ]
+}
